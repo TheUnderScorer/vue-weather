@@ -3,7 +3,7 @@ import forecastClient from '@/http/open-weather/forecastClient';
 
 export default async ( location: string ): Promise<ForecastResponse | null> =>
 {
-    const response = await forecastClient.get<ForecastResponse>( '/', {
+    const response = await forecastClient.get<ForecastResponse>( '', {
         params: {
             q: location,
         },

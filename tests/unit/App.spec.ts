@@ -1,24 +1,38 @@
-/// <reference types="jest" />
-
-import { shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import App from '@/App.vue';
 import '@/plugins/vuetify';
+import MockAdapter from 'axios-mock-adapter';
+import forecastClient from '@/http/open-weather/forecastClient';
+import mockForecast from './mocks/open-weather/mockForecast';
+import mockPlace from './mocks/google/places/mockPlace';
+import vuetify from '@/plugins/vuetify';
 
 let loaderValue: number = 0;
 let loaderDone: boolean = false;
 
 jest.mock( 'nprogress', () => ( {
-    set:  ( value: number ) => loaderValue = value,
-    done: () => loaderDone = true,
+    set:      ( value: number ) => loaderValue = value,
+    done:     () => loaderDone = true,
+    settings: {
+        parent: '',
+    },
 } ) );
 
 jest.mock( 'nprogress/nprogress.css', () => null );
 jest.mock( 'vuetify/dist/vuetify.min.css', () => null );
 
+let mockAxios: MockAdapter;
+
 describe( 'App.vue', () =>
 {
+    beforeEach( () =>
+    {
+        mockAxios = new MockAdapter( forecastClient );
+    } );
+
     afterEach( () =>
     {
+        mockAxios.restore();
         jest.restoreAllMocks();
 
         loaderDone = false;
@@ -45,20 +59,24 @@ describe( 'App.vue', () =>
 
     it( 'Should fetch weather on place change', () =>
     {
+        mockAxios
+            .onGet()
+            .replyOnce( 200, mockForecast );
+
         const component = shallowMount( App );
         const spy = jest.spyOn( component.vm, 'getWeather' as any );
         const instance = component.vm as any;
 
-        instance.onPlaceChange( {
-            formatted_address: 'Katowice, Poland',
-        } );
+        instance.onPlaceChange( mockPlace );
 
         expect( spy ).toBeCalledTimes( 1 );
     } );
 
     it( 'Should toggle loading bar when loading data changes', () =>
     {
-        const component = shallowMount( App );
+        const component = mount( App, {
+            vuetify,
+        } );
         const instance = component.vm as any;
 
         instance.loading = true;

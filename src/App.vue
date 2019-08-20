@@ -10,14 +10,12 @@
 								Weather
 							</v-card-title>
 							<v-card-text>
-								<transition name="fade">
-									<Notice type="error" v-if="!!error" v-on:notice-close=" error = '' ">
-										{{ error }}
-									</Notice>
-								</transition>
 								<v-form id="weather_form">
-									<PlacesAutocomplete id="location" label="Location" v-on:place-changed="onPlaceChange"/>
+									<PlacesAutocomplete :error="error" id="location" label="Location" v-on:place-changed="onPlaceChange"/>
 								</v-form>
+								<transition name="fade">
+									<WeatherList :weatherData="forecast" v-if="!!forecast"/>
+								</transition>
 							</v-card-text>
 						</v-card>
 					</v-col>
@@ -39,9 +37,11 @@
     import { getRandomArbitrary } from '@/utils/math';
     import 'vuetify/dist/vuetify.min.css';
     import Notice from '@/components/Notice.vue';
+    import WeatherList from '@/components/WeatherList.vue';
 
     @Component( {
         components: {
+            WeatherList,
             PlacesAutocomplete,
             Notice
         },
@@ -53,7 +53,7 @@
         public loading: boolean = false;
         public error: string = '';
         public weather: ForecastResponse | null = null;
-        public todayForecast: ForecastData | null = null;
+        public forecast: ForecastData[] = [];
 
         public onPlaceChange( place: google.maps.places.PlaceResult ): void
         {
@@ -68,12 +68,19 @@
                 return;
             }
 
+            this.error = '';
             this.loading = true;
 
             try {
                 this.weather = await getForecast( this.place.formatted_address );
             } catch ( e ) {
-                this.error = 'Unknown error occured, please try again.';
+                this.resetWeathers();
+
+                if ( e.response ) {
+                    this.error = e.response.data.message;
+                } else {
+                    this.error = 'Unknown error occured, please try again.';
+                }
 
                 console.error( e );
 
@@ -90,12 +97,13 @@
             const { weather } = this;
 
             if ( !weather || !weather.list.length ) {
+                this.resetWeathers();
                 this.error = 'No weather found for given location.';
 
                 return;
             }
 
-            this.todayForecast = weather.list[ 0 ];
+            this.forecast = weather.list;
         }
 
         @Watch( 'loading' )
@@ -108,12 +116,23 @@
             }
         }
 
+        public resetWeathers(): void
+        {
+            this.forecast = [];
+            this.weather = null;
+        }
+
         public mounted(): void
         {
-            if ( document.head.querySelector( '#google_maps_script' ) ) {
-                return;
+            if ( !document.head.querySelector( '#google_maps_script' ) ) {
+                this.loadGoogleScript();
             }
 
+            ProgressBar.settings.parent = '.weather-card';
+        }
+
+        private loadGoogleScript(): void
+        {
             const script = document.createElement( 'script' );
             script.id = 'google_maps_script';
             script.src = process.env.VUE_APP_GOOGLE_MAPS_SCRIPT_URL.replace( 'GOOGLE_API_KEY', process.env.VUE_APP_GOOGLE_API_KEY );
