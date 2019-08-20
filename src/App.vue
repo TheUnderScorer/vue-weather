@@ -32,6 +32,7 @@
     import * as ProgressBar from 'nprogress';
     import 'nprogress/nprogress.css';
     import { getRandomArbitrary } from '@/utils/math';
+    import 'vuetify/dist/vuetify.min.css';
 
     @Component( {
         components: {
@@ -74,7 +75,6 @@
             }
 
             console.log( 'Weather for provided location: ', this.weather );
-
         }
 
         @Watch( 'loading' )
@@ -95,7 +95,7 @@
 
             const script = document.createElement( 'script' );
             script.id = 'google_maps_script';
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${ process.env.VUE_APP_GOOGLE_API_KEY }&libraries=places`;
+            script.src = process.env.VUE_APP_GOOGLE_MAPS_SCRIPT_URL.replace( 'GOOGLE_API_KEY', process.env.VUE_APP_GOOGLE_API_KEY );
             script.onload = () => this.didInit = true;
 
             document.head.appendChild( script );

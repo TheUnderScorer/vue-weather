@@ -10,7 +10,7 @@
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
     @Component
-    export default class AutoComplete extends Vue
+    export default class PlacesAutocomplete extends Vue
     {
         public error: string = '';
         public place: google.maps.places.PlaceResult | null = null;
@@ -45,6 +45,11 @@
         public onPlaceChange( place: google.maps.places.PlaceResult ): void
         {
             this.$emit( 'place-changed', place );
+        }
+
+        public getGoogleService(): google.maps.places.Autocomplete
+        {
+            return this.service;
         }
     }
 </script>
