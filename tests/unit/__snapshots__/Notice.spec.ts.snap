@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notice.vue Renders without crashing 1`] = `
+<div class="notice">
+  <section class="notice-text">Test notice!</section> <button type="button" class="notice-close v-btn v-btn--flat v-btn--text theme--light v-size--x-small"><span class="v-btn__content">
+		x
+	</span></button>
+</div>
+`;
