@@ -10,6 +10,11 @@
 								Weather
 							</v-card-title>
 							<v-card-text>
+								<transition name="fade">
+									<Notice type="error" v-if="!!error" v-on:notice-close=" error = '' ">
+										{{ error }}
+									</Notice>
+								</transition>
 								<v-form id="weather_form">
 									<PlacesAutocomplete id="location" label="Location" v-on:place-changed="onPlaceChange"/>
 								</v-form>
@@ -27,16 +32,18 @@
 
     import { Component, Vue, Watch } from 'vue-property-decorator';
     import PlacesAutocomplete from '@/components/PlacesAutocomplete.vue';
-    import ForecastResponse from '@/http/open-weather/types/ForecastResponse';
+    import ForecastResponse, { ForecastData } from '@/http/open-weather/types/ForecastResponse';
     import getForecast from '@/http/open-weather/common/getForecast';
     import * as ProgressBar from 'nprogress';
     import 'nprogress/nprogress.css';
     import { getRandomArbitrary } from '@/utils/math';
     import 'vuetify/dist/vuetify.min.css';
+    import Notice from '@/components/Notice.vue';
 
     @Component( {
         components: {
             PlacesAutocomplete,
+            Notice
         },
     } )
     export default class App extends Vue
@@ -46,6 +53,7 @@
         public loading: boolean = false;
         public error: string = '';
         public weather: ForecastResponse | null = null;
+        public todayForecast: ForecastData | null = null;
 
         public onPlaceChange( place: google.maps.places.PlaceResult ): void
         {
@@ -74,7 +82,20 @@
                 this.loading = false;
             }
 
-            console.log( 'Weather for provided location: ', this.weather );
+            this.handleWeather();
+        }
+
+        protected handleWeather(): void
+        {
+            const { weather } = this;
+
+            if ( !weather || !weather.list.length ) {
+                this.error = 'No weather found for given location.';
+
+                return;
+            }
+
+            this.todayForecast = weather.list[ 0 ];
         }
 
         @Watch( 'loading' )
@@ -103,3 +124,13 @@
 
     }
 </script>
+
+<style lang="scss">
+	.fade-enter-active, .fade-leave-active {
+		transition: opacity .5s;
+	}
+
+	.fade-enter, .fade-leave-to {
+		opacity: 0;
+	}
+</style>

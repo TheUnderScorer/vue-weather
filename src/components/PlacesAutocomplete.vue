@@ -1,6 +1,6 @@
 <template>
 	<div class="autocomplete-container">
-		<v-text-field :error="!!error" :error-messages="error" :id="id" :label="label" clearable placeholder="Enter searched location..." ref="textfield"/>
+		<v-text-field :error="!!error" :error-messages="error" :id="id" :label="label" placeholder="Enter searched location..." ref="textfield"/>
 	</div>
 </template>
 

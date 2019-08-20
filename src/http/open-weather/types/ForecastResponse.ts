@@ -1,10 +1,10 @@
-interface Coord
+export interface Coord
 {
     lon: number;
     lat: number;
 }
 
-interface Weather
+export interface Weather
 {
     id: number;
     main: string;
@@ -21,19 +21,19 @@ export interface Main
     temp_max: number;
 }
 
-interface Wind
+export interface Wind
 {
     speed: number;
     deg: number;
     gust: number;
 }
 
-interface Clouds
+export interface Clouds
 {
     all: number;
 }
 
-interface Sys
+export interface Sys
 {
     type: number;
     id: number;
@@ -43,7 +43,7 @@ interface Sys
     sunset: number;
 }
 
-export default interface ForecastResponse
+export interface ForecastData
 {
     coord: Coord;
     weather: Weather[];
@@ -57,4 +57,12 @@ export default interface ForecastResponse
     id: number;
     name: string;
     cod: number;
+}
+
+export default interface ForecastResponse
+{
+    list: ForecastData[];
+    cod: string;
+    message: number;
+    cnt: number;
 }
