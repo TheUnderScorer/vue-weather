@@ -1,5 +1,8 @@
 <template>
 	<article :class="cssClasses" class="weather-data" v-if="!!forecast">
+		<div class="subtitle">
+			{{ date }}
+		</div>
 		<WeatherIcon :size="iconSize" :weather="forecast.weather[0]"/>
 		<div class="weather-details">
 			<div class="temperature">
@@ -19,10 +22,11 @@
     import { ForecastData } from '@/http/open-weather/types/ForecastResponse';
     import WeatherIcon from '@/components/WeatherIcon.vue';
     import { IconSize } from '@/components/types/IconSize';
+    import moment from 'moment';
 
     @Component( {
         components: {
-            WeatherIcon
+            WeatherIcon,
         }
     } )
     export default class Weather extends Vue
@@ -47,6 +51,26 @@
         {
             return this.isMain ? 'large' : 'small';
         }
+
+        public get date(): string
+        {
+            if ( !this.forecast ) {
+                return '';
+            }
+
+            if ( this.isMain ) {
+                return 'Now';
+            }
+
+            const date = moment( this.forecast.dt_txt );
+            const now = moment();
+
+            if ( date.format( 'YYYYMMDD' ) === now.format( 'YYYYMMDD' ) ) {
+                return date.format( 'HH:mm' );
+            }
+
+            return date.format( 'MMM D, HH:mm' );
+        }
     }
 </script>
 
@@ -57,6 +81,7 @@
 		flex-direction: column;
 		align-items: center;
 		line-height: 1.5em;
+		padding: 1em 0;
 
 		&.is-small {
 			display: inline-flex;

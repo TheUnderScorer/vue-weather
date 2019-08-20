@@ -1,5 +1,5 @@
 <template>
-	<section class="weather-data">
+	<v-sheet class="weather-data" color="grey lighten-5" elevation="1">
 		<div class="today-weather" v-if="!!todayWeather">
 			<Weather :forecast="todayWeather" :isMain="true"/>
 		</div>
@@ -19,7 +19,7 @@
 				</slide>
 			</carousel>
 		</transition>
-	</section>
+	</v-sheet>
 </template>
 
 <script lang="ts">
@@ -31,7 +31,7 @@
         components: {
             Weather: () => import('@/components/Weather.vue'),
             Carousel,
-            Slide
+            Slide,
         }
     } )
     export default class WeatherList extends Vue
@@ -44,9 +44,6 @@
         public todayWeather: ForecastData | null = null;
         public forecast: ForecastData[] = [];
         public isExpanded: boolean = false;
-        public sliderConfig: any = {
-            perPage: 2,
-        };
 
         @Watch( 'weatherData' )
         public onWeatherDataChange( newData: ForecastData[] | null ): void
@@ -65,7 +62,7 @@
 
 <style lang="scss" scoped>
 	.expand {
-		margin-top: 1em;
+		margin: 1em 0;
 
 		&.active {
 			i {

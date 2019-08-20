@@ -43,7 +43,7 @@
         components: {
             WeatherList,
             PlacesAutocomplete,
-            Notice
+            Notice,
         },
     } )
     export default class App extends Vue
@@ -133,9 +133,12 @@
 
         private loadGoogleScript(): void
         {
+            const scriptUrl = process.env.VUE_APP_GOOGLE_MAPS_SCRIPT_URL;
+            const apiKey = process.env.VUE_APP_GOOGLE_API_KEY;
+
             const script = document.createElement( 'script' );
             script.id = 'google_maps_script';
-            script.src = process.env.VUE_APP_GOOGLE_MAPS_SCRIPT_URL.replace( 'GOOGLE_API_KEY', process.env.VUE_APP_GOOGLE_API_KEY );
+            script.src = scriptUrl.replace( 'GOOGLE_API_KEY', apiKey );
             script.onload = () => this.didInit = true;
 
             document.head.appendChild( script );

@@ -1,5 +1,5 @@
 <template>
-	<img :class="cssClasses" :src="iconUrl" alt="" class="weather-icon"/>
+	<v-img :class="cssClasses" :src="iconUrl" alt="" class="weather-icon lighten-2"/>
 </template>
 
 <script lang="ts">
@@ -24,7 +24,7 @@
                 this.size,
                 this.weather.id.toString(),
                 this.weather.icon,
-                this.weather.main
+                this.weather.main,
             ];
         }
 

@@ -22,7 +22,7 @@
         public error !: string;
 
         @Prop( {
-            default: ''
+            default: '',
         } )
         public label!: string;
 
@@ -43,7 +43,6 @@
         public handlePlaceChange(): void
         {
             this.place = this.service.getPlace();
-            console.log( { ...this.place } );
             this.value = this.place.formatted_address as string;
         };
 

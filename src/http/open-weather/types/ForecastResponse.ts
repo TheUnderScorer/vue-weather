@@ -53,6 +53,7 @@ export interface ForecastData
     wind: Wind;
     clouds: Clouds;
     dt: number;
+    dt_txt: string;
     sys: Sys;
     id: number;
     name: string;
