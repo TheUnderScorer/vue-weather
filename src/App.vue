@@ -3,8 +3,8 @@
 		<v-content>
 			<v-container class="fill-height" fluid>
 				<!--suppress HtmlDeprecatedAttribute -->
-				<v-row align="center" justify="center">
-					<v-col cols="12" md="4" sm="8">
+				<v-row align="center" class="main-row" justify="center">
+					<v-col cols="12" md="7" sm="11">
 						<v-card class="weather-card" v-if="didInit">
 							<v-card-title>
 								Weather
@@ -151,5 +151,9 @@
 
 	.fade-enter, .fade-leave-to {
 		opacity: 0;
+	}
+
+	.main-row {
+		overflow: hidden;
 	}
 </style>

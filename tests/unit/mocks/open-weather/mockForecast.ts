@@ -2,13 +2,26 @@ export default {
     list: [
         {
             main:    {
-                temp: 25,
+                temp: 1,
             },
             weather: [
                 {
                     id:          '30',
                     main:        'Snowy',
-                    temp:        1,
+                    icon:        '',
+                    description: '',
+                },
+            ],
+
+        },
+        {
+            main:    {
+                temp: 10,
+            },
+            weather: [
+                {
+                    id:          '25',
+                    main:        'Rain',
                     icon:        '',
                     description: '',
                 },
