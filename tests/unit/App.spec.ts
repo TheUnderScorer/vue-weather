@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import { shallowMount } from '@vue/test-utils';
 import App from '@/App.vue';
 import '@/plugins/vuetify';

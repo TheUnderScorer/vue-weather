@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe( 'Home tests', () =>
 {
     it( 'Visits the app root url', () =>

@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe( 'Google tests', () =>
 {
     it( 'Typing into search input shows suggestions from google maps', () =>
