@@ -10,7 +10,7 @@
 								Weather
 							</v-card-title>
 							<v-card-text>
-								<v-form id="weather_form">
+								<v-form @submit="$event.preventDefault()" id="weather_form">
 									<PlacesAutocomplete :error="error" id="location" label="Location" v-on:place-changed="onPlaceChange"/>
 								</v-form>
 								<transition name="fade">
