@@ -11,13 +11,9 @@
 			</v-btn>
 		</v-row>
 		<transition type="fade">
-			<carousel :class="{visible: isExpanded}" :perPage="7" class="forecast" navigationEnabled v-if="!!forecast && !!forecast.length && isExpanded">
-				<slide :key="forecastData.id" v-for="forecastData in forecast">
-					<v-row align="center" class="fill-height" justify="center">
-						<Weather :forecast="forecastData" class="week-weather"/>
-					</v-row>
-				</slide>
-			</carousel>
+			<div :class="{visible: isExpanded}" class="forecast" v-if="!!forecast && !!forecast.length && isExpanded">
+				<ForecastCarousel :forecast="forecast"/>
+			</div>
 		</transition>
 	</v-sheet>
 </template>
@@ -25,13 +21,11 @@
 <script lang="ts">
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
     import { ForecastData } from '@/http/open-weather/types/ForecastResponse';
-    import { Carousel, Slide } from 'vue-carousel';
 
     @Component( {
         components: {
-            Weather: () => import('@/components/Weather.vue'),
-            Carousel,
-            Slide,
+            ForecastCarousel: () => import('@/components/ForecastCarousel.vue'),
+            Weather:          () => import('@/components/Weather.vue'),
         }
     } )
     export default class WeatherList extends Vue
@@ -71,7 +65,4 @@
 		}
 	}
 
-	.forecast {
-		margin: 2em 0;
-	}
 </style>

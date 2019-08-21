@@ -10,7 +10,7 @@ describe( 'OpenWeather tests', () =>
         todayWeather.should( 'be.visible' );
     } );
 
-    it( 'Click expand arrow should display weather forecast', () =>
+    it( 'Clicking expand arrow should display weather forecast', () =>
     {
         cy.visit( '/' );
 
