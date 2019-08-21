@@ -8,7 +8,7 @@
 	</carousel>
 </template>
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
     import Weather from '@/components/Weather.vue';
     import { ForecastData } from '@/http/open-weather/types/ForecastResponse';
     import { Carousel, Slide } from 'vue-carousel';
@@ -22,6 +22,7 @@
     } )
     export default class ForecastCarousel extends Vue
     {
+        @Prop()
         public forecast!: ForecastData[];
     }
 </script>
