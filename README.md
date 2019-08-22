@@ -1,4 +1,8 @@
-# vue-test
+# Vue Weather App
+
+Simple weather app made as a part of my Vue learning that utilizes Google Location Autocomplete and OpenWeather API.
+
+Remember to rename `.env.example` to `.env` and to provide your API keys there!
 
 ## Project setup
 ```
@@ -15,7 +19,7 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+### Run tests
 ```
 npm run test
 ```
@@ -25,15 +29,12 @@ npm run test
 npm run lint
 ```
 
-### Run your end-to-end tests
+### Run end-to-end tests
 ```
 npm run test:e2e
 ```
 
-### Run your unit tests
+### Run unit tests
 ```
 npm run test:unit
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
