@@ -3,6 +3,11 @@
 		<div class="today-weather" v-if="!!todayWeather">
 			<Weather :forecast="todayWeather" :isMain="true"/>
 		</div>
+		<transition type="fade">
+			<div :class="{visible: isExpanded}" class="forecast" v-if="!!forecast && !!forecast.length && isExpanded">
+				<ForecastCarousel :forecast="forecast"/>
+			</div>
+		</transition>
 		<v-row justify="center" v-if="!!forecast && forecast.length">
 			<v-btn :class="{active : isExpanded}" @click="isExpanded = !isExpanded" class="expand" color="primary" fab>
 				<v-icon>
@@ -10,11 +15,6 @@
 				</v-icon>
 			</v-btn>
 		</v-row>
-		<transition type="fade">
-			<div :class="{visible: isExpanded}" class="forecast" v-if="!!forecast && !!forecast.length && isExpanded">
-				<ForecastCarousel :forecast="forecast"/>
-			</div>
-		</transition>
 	</v-sheet>
 </template>
 
