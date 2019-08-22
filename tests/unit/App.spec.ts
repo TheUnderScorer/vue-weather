@@ -25,6 +25,14 @@ let mockAxios: MockAdapter;
 
 describe( 'App.vue', () =>
 {
+    beforeAll( () =>
+    {
+        Object.assign( process.env, {
+            'VUE_APP_GOOGLE_MAPS_SCRIPT_URL': '',
+            'VUE_APP_GOOGLE_API_KEY':         ''
+        } );
+    } );
+
     beforeEach( () =>
     {
         mockAxios = new MockAdapter( forecastClient );
