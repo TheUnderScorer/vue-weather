@@ -1,5 +1,5 @@
 <template>
-	<carousel :perPage="7" class="forecast-carousel" navigationEnabled>
+	<carousel :perPageCustom="perPage" class="forecast-carousel" navigationEnabled>
 		<slide :key="forecastData.id" v-for="forecastData in forecast">
 			<v-row align="center" class="fill-height" justify="center">
 				<Weather :forecast="forecastData" class="week-weather"/>
@@ -24,6 +24,12 @@
     {
         @Prop()
         public forecast!: ForecastData[];
+
+        public perPage: Array<Array<number>> = [
+            [ 768, 3 ],
+            [ 1024, 4 ],
+            [ 1440, 7 ]
+        ];
     }
 </script>
 <style lang="scss" scoped>
